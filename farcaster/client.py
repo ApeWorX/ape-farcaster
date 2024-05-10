@@ -18,6 +18,9 @@ from farcaster.config import *
 from farcaster.models import *
 from farcaster.utils.stream_generator import stream_generator
 
+from ape.api import AccountAPI
+from ape.types import MessageSignature
+
 
 class Warpcast:
     """The Warpcast class is a wrapper around the Farcaster API.
@@ -26,7 +29,7 @@ class Warpcast:
     """
 
     config: ConfigurationParams
-    wallet: Optional[LocalAccount]
+    wallet: AccountAPI
     access_token: Optional[str]
     expires_at: Optional[PositiveInt]
     rotation_duration: PositiveInt
@@ -34,16 +37,14 @@ class Warpcast:
 
     def __init__(
         self,
-        mnemonic: Optional[str] = None,
-        private_key: Optional[str] = None,
-        access_token: Optional[str] = None,
+        account: AccountAPI,
         expires_at: Optional[PositiveInt] = None,
         rotation_duration: PositiveInt = 10,
         **data: Any,
     ):
         self.config = ConfigurationParams(**data)
-        self.wallet = get_wallet(mnemonic, private_key)
-        self.access_token = access_token
+        self.account = account
+        self.access_token = None
         self.expires_at = expires_at
         self.rotation_duration = rotation_duration
         self.session = requests.Session()
@@ -55,17 +56,8 @@ class Warpcast:
                 )
             ),
         )
-        if self.access_token:
-            self.session.headers.update(
-                {"Authorization": f"Bearer {self.access_token}"}
-            )
-            if not self.expires_at:
-                self.expires_at = 33228645430000  # 3000-01-01
-
-        elif not self.wallet:
-            raise Exception("No wallet or access token provided")
-        else:
-            self.create_new_auth_token(expires_in=self.rotation_duration)
+        
+        self.create_new_auth_token(expires_in=self.rotation_duration)
 
     def get_base_path(self):
         return self.config.base_path
@@ -1076,39 +1068,16 @@ class Warpcast:
         Returns:
             str: custody authorization header
         """
-        if not self.wallet:
-            raise Exception("Wallet not set")
+       
         auth_put_request = AuthPutRequest(params=params)
         payload = auth_put_request.model_dump(by_alias=True, exclude_none=True)
         encoded_payload = canonicaljson.encode_canonical_json(payload)
         signable_message = encode_defunct(primitive=encoded_payload)
-        signed_message: SignedMessage = self.wallet.sign_message(signable_message)
-        data_hex_array = bytearray(signed_message.signature)
+        signed_message: MessageSignature = self.wallet.sign_message(signable_message)
+        # TODO check if it is in vrs or rsv
+        data_hex_array = bytearray(signed_message.encode_vrs())
         encoded = base64.b64encode(data_hex_array).decode()
         return f"Bearer eip191:{encoded}"
-
-
-def get_wallet(
-    mnemonic: Optional[str] = None, private_key: Optional[str] = None
-) -> Optional[LocalAccount]:
-    """Get a wallet from mnemonic or private key
-
-    Args:
-        mnemonic (Optional[str]): mnemonic
-        private_key (Optional[str]): private key
-
-    Returns:
-        Optional[LocalAccount]: wallet
-    """
-    Account.enable_unaudited_hdwallet_features()
-
-    if mnemonic:
-        account: LocalAccount = Account.from_mnemonic(mnemonic)
-        return account  # pragma: no cover
-    elif private_key:
-        account = Account.from_key(private_key)
-        return account  # pragma: no cover
-    return None
 
 
 def now_ms() -> int:
