@@ -29,7 +29,7 @@ class Warpcast:
     """
 
     config: ConfigurationParams
-    wallet: AccountAPI
+    account: AccountAPI
     access_token: Optional[str]
     expires_at: Optional[PositiveInt]
     rotation_duration: PositiveInt
@@ -1033,7 +1033,7 @@ class Warpcast:
         )
 
     def create_new_auth_token(self, expires_in: PositiveInt = 10) -> str:
-        """Create a new access token for a user from the wallet credentials
+        """Create a new access token for a user from the account credentials
 
         Args:
             expires_in (PositiveInt): Expiration length of the token in minutes,
@@ -1063,7 +1063,7 @@ class Warpcast:
             params (AuthParams): authorization parameters
 
         Raises:
-            Exception: Wallet is required
+            Exception: account is required
 
         Returns:
             str: custody authorization header
@@ -1073,7 +1073,7 @@ class Warpcast:
         payload = auth_put_request.model_dump(by_alias=True, exclude_none=True)
         encoded_payload = canonicaljson.encode_canonical_json(payload)
         signable_message = encode_defunct(primitive=encoded_payload)
-        signed_message: MessageSignature = self.wallet.sign_message(signable_message)
+        signed_message: MessageSignature = self.account.sign_message(signable_message)
         # TODO check if it is in vrs or rsv
         data_hex_array = bytearray(signed_message.encode_vrs())
         encoded = base64.b64encode(data_hex_array).decode()
