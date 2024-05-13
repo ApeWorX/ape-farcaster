@@ -34,7 +34,6 @@ classifiers = [  #! Update me
 ]
 
 dependencies = [
-  "importlib_metadata >= 4.5.0",
   "python-dotenv >= 0.21,<1.1",
   "pydantic >= 1.9.2,<3.0.0",
   "pyhumps >= 3.7.2",
