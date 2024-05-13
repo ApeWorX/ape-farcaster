@@ -1,20 +1,23 @@
-# Poetry pyproject.toml: https://python-poetry.org/docs/pyproject/
 [build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = [
+  "setuptools>=60",
+  "setuptools_scm>=8",
+  ]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry]
+[project]
 name = "ape-farcaster"
-version = "0.7.11"
 description = "ape-farcaster is a Python SDK for the Farcaster Protocol"
+dynamic = ["version"]
 readme = "README.md"
-authors = ApeWorX
-license = "MIT"
-repository = "https://github.com/ApeWorX/ape-farcaster"
-homepage = "https://github.com/ApeWorX/ape-farcaster/"
-
-# Keywords description https://python-poetry.org/docs/pyproject/#keywords
-keywords = []  #! Update me
+authors = [
+  {name = "Andreessen Horowitz", email = "crypto-engineering@a16z.com"},
+  {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
+]
+maintainers = [
+  {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
+]
+requires-python = ">=3.10,<4"
 
 # Pypi classifiers: https://pypi.org/classifiers/
 classifiers = [  #! Update me
@@ -30,46 +33,65 @@ classifiers = [  #! Update me
   "Programming Language :: Python :: 3.11",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.8.0,<4.0.0"
-importlib_metadata = {version = "^4.5.0", python = "<3.8"}
-python-dotenv = ">=0.21,<1.1"
-pydantic = ">=1.9.2,<3.0.0"
-pyhumps = "^3.7.2"
-requests = "^2.28.1"
-canonicaljson = ">=1.6.4,<3.0.0"
-eth-account = ">=0.8,<0.11"
-parsimonious = ">=0.8.1,<0.10.0"
+dependencies = [
+  "importlib_metadata >= 4.5.0",
+  "python-dotenv >= 0.21,<1.1",
+  "pydantic >= 1.9.2,<3.0.0",
+  "pyhumps >= 3.7.2",
+  "requests >= 2.28.1",
+  "canonicaljson >= 1.6.4,<3.0.0",
+  "eth-account >= 0.8,<0.11",
+  "parsimonious >= 0.8.1,<0.10.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-bandit = "^1.7.1"
-black = "^23.1.0"
-darglint = "^1.8.1"
-isort = {extras = ["colors"], version = "^5.11.5"}
-mypy = "^1.0"
-mypy-extensions = "^1.0.0"
-pre-commit = ">=2.15,<4.0"
-pydocstyle = "^6.3.0"
-pylint = "^2.11.1"
-pytest = "^7.2.1"
-pyupgrade = "^3.3.1"
-safety = "^2.1.1"
-coverage = "^7.2.1"
-coverage-badge = "^1.1.0"
-pytest-dependency = "^0.5.1"
-pytest-html = "^3.1.1"
-pytest-cov = "^4.0.0"
-pytest-recording = "^0.12.1"
-docconvert = "^2.0.0"
-mkdocs = "^1.4.2"
-mkdocs-material = "^9.0.5"
-mkdocstrings = ">=0.19.1,<0.24.0"
-mkdocstrings-python = ">=0.8.3,<0.11.0"
-pillow = ">=9.4,<11.0"
-cairosvg = "^2.6.0"
-bump-pydantic = "^0.6.1"
-types-requests = "^2.31.0.2"
-vcrpy = "^5.1.0"
+[project.urls]
+Repository = "https://github.com/ApeWorX/ape-farcaster"
+Homepage = "https://github.com/ApeWorX/ape-farcaster/"
+
+[project.optional-dependencies]
+lint = [
+  "black",
+  "isort[colors]",
+  "mypy >= 1.0",
+  "mypy-extensions >= 1.0.0",
+  "pydocstyle >= 6.3.0",
+  "pylint >= 2.11.1",
+  "darglint >= 1.8.1",
+  "types-requests >= 2.31.0.2",
+  "bandit >= 1.7.1",
+]
+test = [
+  "pytest >= 7.2.1",
+  "coverage >= 7.2.1",
+  "coverage-badge >= 1.1.0",
+  "pytest-dependency >= 0.5.1",
+  "pytest-html >= 3.1.1",
+  "pytest-cov >= 4.0.0",
+  "pytest-recording >= 0.12.1",
+  "vcrpy >= 5.1.0"
+]
+release = [
+  "setuptools_scm",
+  "wheel",
+]
+docs = [
+  "docconvert >= 2.0.0",
+  "mkdocs >= 1.4.2",
+  "mkdocs-material >= 9.0.5",
+  "mkdocstrings >= 0.19.1,<0.24.0",
+  "mkdocstrings-python >= 0.8.3,<0.11.0",
+  "cairosvg >= 2.6.0",
+]
+dev = [
+  "IPython",
+  # NOTE: Must be PEP508, this ensures that `.[dev]` also installs the other extras too
+  "ape-farcaster[lint,test,release,docs]",
+  "pyupgrade >= 3.3.1",
+  "pre-commit >= 2.15,<4.0",
+]
+
+[tool.setuptools]
+packages = [ "ape_farcaster"]
 
 [tool.black]
 # https://github.com/psf/black
