@@ -4,14 +4,14 @@ requires = ["poetry_core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "farcaster"
+name = "ape-farcaster"
 version = "0.7.11"
-description = "farcaster-py is a Python SDK for the Farcaster Protocol"
+description = "ape-farcaster is a Python SDK for the Farcaster Protocol"
 readme = "README.md"
 authors = ["Andreessen Horowitz <crypto-engineering@a16z.com>"]
 license = "MIT"
-repository = "https://github.com/a16z/farcaster-py"
-homepage = "https://github.com/a16z/farcaster-py"
+repository = "https://github.com/ApeWorX/ape-farcaster"
+homepage = "https://github.com/ApeWorX/ape-farcaster/"
 
 # Keywords description https://python-poetry.org/docs/pyproject/#keywords
 keywords = []  #! Update me

@@ -1,4 +1,4 @@
-# farcaster-py
+# ape-farcaster
 
 <div align="center">
 
@@ -13,7 +13,7 @@
 ![Coverage Report](assets/images/coverage.svg)
 [![chat](https://img.shields.io/badge/chat-telegram-blue)](https://t.me/+aW_ucWeBVUZiNThh)
 
-farcaster-py is a modern Python SDK for the Farcaster protocol<br></br>
+ape-farcaster is a modern Python SDK for the Farcaster protocol<br></br>
 
 Full documentation can be found [here](https://a16z.github.io/farcaster-py)
 
