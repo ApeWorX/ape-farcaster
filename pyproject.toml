@@ -92,6 +92,9 @@ dev = [
 [tool.setuptools]
 packages = [ "ape_farcaster"]
 
+[tool.setuptools_scm]
+# NOTE: Required to work
+
 [tool.black]
 # https://github.com/psf/black
 target-version = ["py310"]
