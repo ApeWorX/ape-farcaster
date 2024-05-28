@@ -9,7 +9,7 @@ from collections import OrderedDict
 
 from pydantic import PositiveInt
 
-from farcaster.models import ApiCast, ApiUser, MentionNotification, ReplyNotification
+from ape_farcaster.models import ApiCast, ApiUser, MentionNotification, ReplyNotification
 
 Streamable = Union[
     List[Union[MentionNotification, ReplyNotification]],

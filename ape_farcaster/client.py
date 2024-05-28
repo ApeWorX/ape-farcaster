@@ -6,6 +6,8 @@ import time
 
 import canonicaljson
 import requests
+from ape.api import AccountAPI
+from ape.types import MessageSignature
 from eth_account.account import Account
 from eth_account.datastructures import SignedMessage
 from eth_account.messages import encode_defunct
@@ -14,12 +16,9 @@ from pydantic import PositiveInt
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 
-from farcaster.config import *
-from farcaster.models import *
-from farcaster.utils.stream_generator import stream_generator
-
-from ape.api import AccountAPI
-from ape.types import MessageSignature
+from ape_farcaster.config import *
+from ape_farcaster.models import *
+from ape_farcaster.utils.stream_generator import stream_generator
 
 
 class Warpcast:
@@ -56,7 +55,7 @@ class Warpcast:
                 )
             ),
         )
-        
+
         self.create_new_auth_token(expires_in=self.rotation_duration)
 
     def get_base_path(self):
@@ -196,6 +195,8 @@ class Warpcast:
             json=body.model_dump(by_alias=True, exclude_none=True),
             headers={"Authorization": header},
         ).json()
+        if "errors" in response:
+            raise Exception(response["errors"])  # pragma: no cover
         return AuthPutResponse(**response).result
 
     def delete_auth(self) -> StatusContent:
@@ -1068,14 +1069,13 @@ class Warpcast:
         Returns:
             str: custody authorization header
         """
-       
+
         auth_put_request = AuthPutRequest(params=params)
         payload = auth_put_request.model_dump(by_alias=True, exclude_none=True)
         encoded_payload = canonicaljson.encode_canonical_json(payload)
         signable_message = encode_defunct(primitive=encoded_payload)
         signed_message: MessageSignature = self.account.sign_message(signable_message)
-        # TODO check if it is in vrs or rsv
-        data_hex_array = bytearray(signed_message.encode_vrs())
+        data_hex_array = bytearray(signed_message.encode_rsv())
         encoded = base64.b64encode(data_hex_array).decode()
         return f"Bearer eip191:{encoded}"
 
