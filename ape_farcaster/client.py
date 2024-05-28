@@ -6,6 +6,8 @@ import time
 
 import canonicaljson
 import requests
+from ape.api import AccountAPI
+from ape.types import MessageSignature
 from eth_account.account import Account
 from eth_account.datastructures import SignedMessage
 from eth_account.messages import encode_defunct
@@ -17,9 +19,6 @@ from urllib3.util import Retry
 from farcaster.config import *
 from farcaster.models import *
 from farcaster.utils.stream_generator import stream_generator
-
-from ape.api import AccountAPI
-from ape.types import MessageSignature
 
 
 class Warpcast:
@@ -56,7 +55,7 @@ class Warpcast:
                 )
             ),
         )
-        
+
         self.create_new_auth_token(expires_in=self.rotation_duration)
 
     def get_base_path(self):
