@@ -16,9 +16,9 @@ from pydantic import PositiveInt
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 
-from farcaster.config import *
-from farcaster.models import *
-from farcaster.utils.stream_generator import stream_generator
+from ape_farcaster.config import *
+from ape_farcaster.models import *
+from ape_farcaster.utils.stream_generator import stream_generator
 
 
 class Warpcast:

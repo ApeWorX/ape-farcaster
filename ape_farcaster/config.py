@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional
 
-from farcaster.models import *
+from ape_farcaster.models import *
 
 FARCASTER_API_BASE_URL = "https://api.warpcast.com/v2/"
 
