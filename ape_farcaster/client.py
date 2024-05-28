@@ -195,6 +195,8 @@ class Warpcast:
             json=body.model_dump(by_alias=True, exclude_none=True),
             headers={"Authorization": header},
         ).json()
+        if "errors" in response:
+            raise Exception(response["errors"])  # pragma: no cover
         return AuthPutResponse(**response).result
 
     def delete_auth(self) -> StatusContent:
