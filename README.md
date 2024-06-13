@@ -11,13 +11,13 @@ Full documentation can be found
 ## Installation
 
 ```bash
-pip install -U farcaster
+pip install -U ape-farcaster
 ```
 
 or install with [Poetry](https://python-poetry.org/):
 
 ```bash
-poetry add farcaster
+poetry add ape-farcaster
 ```
 
 ## Usage
