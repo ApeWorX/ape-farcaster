@@ -79,7 +79,7 @@ setup(
         "requests >= 2.28.1",
         "canonicaljson >= 1.6.4,<3.0.0",
         "eth-account",  # Peer of eth-ape
-        "parsimonious >= 0.8.1,<0.10.0",
+        "parsimonious >= 0.10.0,<0.11.0",
     ],
     python_requires=">=3.9,<4",
     extras_require=extras_require,
