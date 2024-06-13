@@ -1,26 +1,23 @@
-## Description
+### What I did
 
-<!-- Add a more detailed description of the changes if needed. -->
+<!-- Create a summary of the changes -->
 
-## Related Issue
+<!-- The `fixes:` field denotes an issue that will be marked resolved by merging this PR -->
 
-<!-- If your PR refers to a related issue, link it here. -->
+fixes: #
 
-## Type of Change
+### How I did it
 
-<!-- Mark with an `x` all the checkboxes that apply (like `[x]`) -->
+<!-- Discuss the thought process behind the change -->
 
-- [ ] 📚 Examples / docs / tutorials / dependencies update
-- [ ] 🔧 Bug fix (non-breaking change which fixes an issue)
-- [ ] 🥂 Improvement (non-breaking change which improves an existing feature)
-- [ ] 🚀 New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to change)
-- [ ] 🔐 Security fix
+### How to verify it
 
-## Checklist
+<!-- Discuss any methods that should be used to verify the change -->
 
-<!-- Mark with an `x` all the checkboxes that apply (like `[x]`) -->
+### Checklist
 
-- [ ] I've updated the code style using `make codestyle`.
-- [ ] I've written tests for all new methods and classes that I created.
-- [ ] I've written the docstring in Google format for all the methods and classes that I used.
+<!-- All PRs must complete the following checklist before being merged -->
+
+- [ ] All changes are completed
+- [ ] New test cases have been added
+- [ ] Documentation has been updated

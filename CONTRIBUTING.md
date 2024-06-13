@@ -1,47 +1,90 @@
-# How to contribute
+# Development
 
-## Dependencies
-
-We use `poetry` to manage the [dependencies](https://github.com/python-poetry/poetry).
-If you dont have `poetry`, you should install with `make poetry-download`.
-
-To install dependencies and prepare [`pre-commit`](https://pre-commit.com/) hooks you would need to run `install` command:
+To get started with working on the codebase, use the following steps to prepare your local environment:
 
 ```bash
-make install
-make pre-commit-install
+# clone the GitHub repo and navigate into the folder
+git clone https://github.com/ApeWorX/ape.git
+cd ape
+
+# create and load a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# install the developer dependencies (-e is interactive mode)
+pip install -e .'[dev]'
 ```
 
-To activate your `virtualenv` run `poetry shell`.
+```{note}
+You might run into issues where you have a local install and are trying to work with a plugin pinned to a specific version.
+```
 
-## Codestyle
+[The easiest solution](https://github.com/ApeWorX/ape/issues/90) to this is to fetch the tags via `git fetch upstream --tags` and reinstall via `pip install .`.
+You will then have the correct version.
 
-After installation you may execute code formatting.
+## Pre-Commit Hooks
+
+We use [`pre-commit`](https://pre-commit.com/) hooks to simplify linting and ensure consistent formatting among contributors.
+Use of `pre-commit` is not a requirement, but is highly recommended.
+
+Install `pre-commit` locally from the root folder:
 
 ```bash
-make codestyle
+pip install pre-commit
+pre-commit install
 ```
 
-### Checks
+Committing will now automatically run the local hooks and ensure that your commit passes all lint checks.
 
-Many checks are configured for this project. Command `make check-codestyle` will check black, isort and darglint.
-The `make check-safety` command will look at the security of your code.
+## GitHub Access Token
 
-Comand `make lint` applies all checks.
+If you are a member of ApeWorX and would like to install private plugins,
+[create a GitHub access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
-### Before submitting
+Once you have your token, export it to your terminal session:
 
-Before submitting your code please do the following steps:
+```bash
+export GITHUB_ACCESS_TOKEN=<your-token>
+```
 
-1. Add any changes you want
-1. Add tests for the new changes
-1. Edit documentation if you have changed something significant
-1. Run `make codestyle` to format your changes.
-1. Run `make lint` to ensure that types, security and docstrings are okay.
+## Running the docs locally
 
-## Other help
+First, make sure you have the docs-related tooling installed:
 
-You can contribute by spreading a word about this library.
-It would also be a huge contribution to write
-a short article on how you are using this project.
-You can also share your best practices with us.
+```bash
+pip install -e .'[doc]'
+```
+
+Then, run the following from the root project directory:
+
+```bash
+python build_docs.py
+```
+
+For the best viewing experience, use a local server:
+
+```bash
+python -m http.server --directory "docs/_build/" --bind 127.0.0.1 1337
+```
+
+Then, open your browser to `127.0.0.1:1337` and click the `ape` directory link.
+
+```{note}
+Serving from `"docs/_build/"` rather than `"docs/_build/ape"` is necessary to make routing work.
+```
+
+## Pull Requests
+
+Pull requests are welcomed! Please adhere to the following:
+
+- Ensure your pull request passes our linting checks
+- Include test cases for any new functionality
+- Include any relevant documentation updates
+
+It's a good idea to make pull requests early on.
+A pull request represents the start of a discussion, and doesn't necessarily need to be the final, finished submission.
+
+If you are opening a work-in-progress pull request to verify that it passes CI tests, please consider
+[marking it as a draft](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests).
+
+Join the ApeWorX [Discord](https://discord.gg/apeworx) if you have any questions.
