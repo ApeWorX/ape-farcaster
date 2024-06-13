@@ -1,5 +1,4 @@
 import pytest
-
 from farcaster import Warpcast
 from farcaster.client import get_wallet
 

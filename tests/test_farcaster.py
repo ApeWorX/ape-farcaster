@@ -1,9 +1,7 @@
+import logging
 from typing import Any, List
 
-import logging
-
 import pytest
-
 from farcaster import Warpcast, models
 
 
@@ -18,9 +16,7 @@ def test_get_cast(client: Warpcast) -> None:
         None
     """
     # get cast
-    response = client.get_cast(
-        "0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d86f"
-    )
+    response = client.get_cast("0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d86f")
     assert response.cast.author.fid == 3
 
 
@@ -37,9 +33,7 @@ def test_nonexistent_get_cast(client: Warpcast) -> None:
     # get cast
     with pytest.raises(Exception):
         # Should raise error
-        client.get_cast(
-            "0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d861"
-        )
+        client.get_cast("0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d861")
 
 
 @pytest.mark.vcr
@@ -335,12 +329,8 @@ def test_get_user_by_verification(client: Warpcast) -> None:
         None
     """
     with pytest.raises(Exception):
-        user = client.get_user_by_verification(
-            address="0x000000000877cb2a6cbce87a34f0d2fd7cb4ad3e"
-        )
-    user = client.get_user_by_verification(
-        address="0xDC40CbF86727093c52582405703e5b97D5C64B66"
-    )
+        user = client.get_user_by_verification(address="0x000000000877cb2a6cbce87a34f0d2fd7cb4ad3e")
+    user = client.get_user_by_verification(address="0xDC40CbF86727093c52582405703e5b97D5C64B66")
     assert user.username == "mason"
 
 
@@ -462,9 +452,7 @@ class TestRW:
         Returns:
             None
         """
-        response = client.post_cast(
-            text="Hello world from our WIP Farcaster Python SDK!"
-        )
+        response = client.post_cast(text="Hello world from our WIP Farcaster Python SDK!")
         logging.debug(response.cast.model_dump())
         assert response.cast
         self.__class__.cast_hash = response.cast.hash

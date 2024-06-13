@@ -1,8 +1,7 @@
-from typing import Any, Dict, Iterator, Optional
-
 import base64
 import logging
 import time
+from typing import Any, Dict, Iterator, Optional
 
 import canonicaljson
 import requests
@@ -50,9 +49,7 @@ class Warpcast:
         self.session.mount(
             self.config.base_path,
             HTTPAdapter(
-                max_retries=Retry(
-                    total=2, backoff_factor=1, status_forcelist=[520, 413, 429, 503]
-                )
+                max_retries=Retry(total=2, backoff_factor=1, status_forcelist=[520, 413, 429, 503])
             ),
         )
 
@@ -312,9 +309,7 @@ class Warpcast:
                 users.extend(response_model.result.users)
             if not response_model.next or len(users) >= limit:
                 break
-        return IterableUsersResult(
-            users=users, cursor=getattr(response_model.next, "cursor", None)
-        )
+        return IterableUsersResult(users=users, cursor=getattr(response_model.next, "cursor", None))
 
     def get_cast(
         self,
@@ -402,9 +397,7 @@ class Warpcast:
         Returns:
             CastContent: The result of posting the cast
         """
-        body = CastsPostRequest(
-            text=text, embeds=embeds, parent=parent, channel_key=channel_key
-        )
+        body = CastsPostRequest(text=text, embeds=embeds, parent=parent, channel_key=channel_key)
         response = self._post(
             "casts",
             json=body.model_dump(by_alias=True, exclude_none=True),
@@ -669,9 +662,7 @@ class Warpcast:
         Returns:
             List[Union[MentionNotification, ReplyNotification]]: list of notifications
         """
-        return self.get_mention_and_reply_notifications(
-            cursor=cursor, limit=limit
-        ).notifications
+        return self.get_mention_and_reply_notifications(cursor=cursor, limit=limit).notifications
 
     def stream_notifications(
         self, **stream_options: Any
@@ -1044,9 +1035,7 @@ class Warpcast:
             str: access token
         """
         now = int(time.time())
-        auth_params = AuthParams(
-            timestamp=now * 1000, expires_at=(now + (expires_in * 60)) * 1000
-        )
+        auth_params = AuthParams(timestamp=now * 1000, expires_at=(now + (expires_in * 60)) * 1000)
         logging.debug(f"Creating new auth token with params: {auth_params}")
         response = self.put_auth(auth_params)
         self.access_token = response.token.secret

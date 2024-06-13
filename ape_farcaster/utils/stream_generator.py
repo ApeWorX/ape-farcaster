@@ -1,11 +1,10 @@
-from typing import Any, Callable, Iterator, List, Optional
-from typing import OrderedDict as OrderedDictType
-from typing import Union
-
 import logging
 import random
 import time
 from collections import OrderedDict
+from typing import Any, Callable, Iterator, List, Optional
+from typing import OrderedDict as OrderedDictType
+from typing import Union
 
 from pydantic import PositiveInt
 
