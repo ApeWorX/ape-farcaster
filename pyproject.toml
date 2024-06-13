@@ -1,188 +1,46 @@
 [build-system]
-requires = [
-  "setuptools>=60",
-  "setuptools_scm>=8",
-  ]
-build-backend = "setuptools.build_meta"
+requires = ["setuptools>=60", "setuptools_scm>=8"]
 
-[project]
-name = "ape-farcaster"
-description = "ape-farcaster is a Python SDK for the Farcaster Protocol"
-dynamic = ["version"]
-readme = "README.md"
-authors = [
-  {name = "Andreessen Horowitz", email = "crypto-engineering@a16z.com"},
-  {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
-]
-maintainers = [
-  {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
-]
-requires-python = ">=3.10,<4"
-
-# Pypi classifiers: https://pypi.org/classifiers/
-classifiers = [  #! Update me
-  "Development Status :: 3 - Alpha",
-  "Intended Audience :: Developers",
-  "Operating System :: OS Independent",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-]
-
-dependencies = [
-  "eth-ape>=0.7",
-  "python-dotenv >= 0.21,<1.1",
-  "pydantic >= 1.9.2,<3.0.0",
-  "pyhumps >= 3.7.2",
-  "requests >= 2.28.1",
-  "canonicaljson >= 1.6.4,<3.0.0",
-  "eth-account",  # Peer of eth-ape
-  "parsimonious >= 0.8.1,<0.10.0",
-]
-
-[project.urls]
-Repository = "https://github.com/ApeWorX/ape-farcaster"
-Homepage = "https://github.com/ApeWorX/ape-farcaster/"
-
-[project.optional-dependencies]
-lint = [
-  "black",
-  "isort[colors]",
-  "mypy >= 1.0",
-  "mypy-extensions >= 1.0.0",
-  "pydocstyle >= 6.3.0",
-  "pylint >= 2.11.1",
-  "darglint >= 1.8.1",
-  "types-requests >= 2.31.0.2",
-  "bandit >= 1.7.1",
-]
-test = [
-  "pytest >= 7.2.1",
-  "coverage >= 7.2.1",
-  "coverage-badge >= 1.1.0",
-  "pytest-dependency >= 0.5.1",
-  "pytest-html >= 3.1.1",
-  "pytest-cov >= 4.0.0",
-  "pytest-recording >= 0.12.1",
-  "vcrpy >= 5.1.0"
-]
-release = [
-  "setuptools_scm",
-  "wheel",
-]
-docs = [
-  "docconvert >= 2.0.0",
-  "mkdocs >= 1.4.2",
-  "mkdocs-material >= 9.0.5",
-  "mkdocstrings >= 0.19.1,<0.24.0",
-  "mkdocstrings-python >= 0.8.3,<0.11.0",
-  "cairosvg >= 2.6.0",
-]
-dev = [
-  "IPython",
-  # NOTE: Must be PEP508, this ensures that `.[dev]` also installs the other extras too
-  "ape-farcaster[lint,test,release,docs]",
-  "pyupgrade >= 3.3.1",
-  "pre-commit >= 2.15,<4.0",
-]
-
-[tool.setuptools]
-packages = [ "ape_farcaster"]
-
-[tool.setuptools_scm]
-# NOTE: Required to work
-
-[tool.black]
-# https://github.com/psf/black
-target-version = ["py310"]
-line-length = 88
-color = true
-
-exclude = '''
-/(
-    \.git
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-    | env
-    | venv
-)/
-'''
-
-[tool.isort]
-# https://github.com/timothycrosley/isort/
-py_version = 310
-line_length = 88
-
-known_typing = ["typing", "types", "typing_extensions", "mypy", "mypy_extensions"]
-sections = ["FUTURE", "TYPING", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
-include_trailing_comma = true
-profile = "black"
-multi_line_output = 3
-indent = 4
-color_output = true
 
 [tool.mypy]
-# https://mypy.readthedocs.io/en/latest/config_file.html#using-a-pyproject-toml-file
-pretty = true
-show_traceback = true
-color_output = true
+exclude = "build/"
+plugins = ["pydantic.mypy"]
 
-allow_redefinition = false
-check_untyped_defs = true
-disallow_any_generics = true
-disallow_incomplete_defs = true
-ignore_missing_imports = true
-implicit_reexport = true
-no_implicit_optional = true
-show_column_numbers = true
-show_error_codes = true
-show_error_context = true
-strict_equality = true
-strict_optional = true
-warn_no_return = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unreachable = true
-warn_unused_configs = true
-warn_unused_ignores = true
+[tool.setuptools_scm]
+write_to = "ape_farcaster/version.py"
+
+# NOTE: you have to use single-quoted strings in TOML for regular expressions.
+# It's the equivalent of r-strings in Python.  Multiline strings are treated as
+# verbose regular expressions by Black.  Use [ ] to denote a significant space
+# character.
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
 
 [tool.pytest.ini_options]
-# https://docs.pytest.org/en/6.2.x/customize.html#pyproject-toml
-# Directories that are not visited by pytest collector:
-norecursedirs =["hooks", "*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
-doctest_optionflags = ["NUMBER", "NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
-filterwarnings = [
-    "ignore::DeprecationWarning",
-  ]
-log_cli = true
-log_cli_level = 30
-# Extra options:
-addopts = [
-  "--strict-markers",
-  "--tb=short",
-  "--doctest-modules",
-  "--doctest-continue-on-failure",
-]
+addopts = """
+    -p no:ape_test
+    --cov-branch
+    --cov-report term
+    --cov-report html
+    --cov-report xml
+    --cov=ape_farcaster
+"""
+python_files = "test_*.py"
+testpaths = "tests"
+markers = """
+fuzzing: Run Hypothesis fuzz test suite
+install: Tests that will install a solc version (slow)
+"""
 
-[tool.coverage.run]
-source = ["tests"]
+[tool.isort]
+line_length = 100
+force_grid_wrap = 0
+include_trailing_comma = true
+multi_line_output = 3
+use_parentheses = true
 
-[coverage.paths]
-source = "farcaster"
-
-[coverage.run]
-branch = true
-
-[coverage.report]
-fail_under = 50
-show_missing = true
+[tool.mdformat]
+number = true
