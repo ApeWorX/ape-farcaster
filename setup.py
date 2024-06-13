@@ -26,6 +26,13 @@ extras_require = {
         "Sphinx>=6.1.3,<7",  # Documentation generator
         "sphinx_rtd_theme>=1.2.0,<2",  # Readthedocs.org theme
         "towncrier>=19.2.0, <20",  # Generate release notes
+        # Necessary for a16z docs
+        "docconvert >= 2.0.0",
+        "mkdocs >= 1.4.2",
+        "mkdocs-material >= 9.0.5",
+        "mkdocstrings >= 0.19.1,<0.24.0",
+        "mkdocstrings-python >= 0.8.3,<0.11.0",
+        "cairosvg >= 2.6.0",
     ],
     "release": [  # `release` GitHub Action job uses this
         "setuptools",  # Installation tool
@@ -73,13 +80,36 @@ setup(
     include_package_data=True,
     install_requires=[
         "eth-ape>=0.8.4,<0.9",
-        "python-dotenv >= 0.21,<1.1",
-        "pydantic >= 1.9.2,<3.0.0",
-        "pyhumps >= 3.7.2",
-        "requests >= 2.28.1",
+        "bitarray==2.6.2",
+        "cached-property==1.5.2",
         "canonicaljson >= 1.6.4,<3.0.0",
-        "eth-account",  # Peer of eth-ape
+        "certifi==2022.12.7",
+        "charset-normalizer==3.0.1",
+        "cytoolz==0.12.1",
+        "eth-abi", # Use same version as eth-ape
+        "eth-account", # Use same version as eth-ape
+        "eth-hash==0.5.1",
+        "eth-keyfile==0.6.0",
+        "eth-keys==0.4.0",
+        "eth-rlp==0.3.0",
+        "eth-typing", # Use same version as eth-ape
+        "eth-utils", # Use same version as eth-ape
+        "hexbytes", # Use same version as eth-ape
+        "idna==3.4",
+        "importlib-metadata==4.13.0",
         "parsimonious >= 0.10.0,<0.11.0",
+        "pycryptodome==3.16.0",
+        "pydantic", # Use same version as eth-ape
+        "pyhumps >= 3.7.2",
+        "python-dotenv >= 0.21,<1.1",
+        "requests", # Use same version as eth-ape
+        "rlp==3.0.0",
+        "simplejson==3.18.1",
+        "six==1.16.0",
+        "toolz==0.12.0",
+        "typing-extensions==4.4.0",
+        "urllib3==1.26.14",
+        "zipp==3.11.0",
     ],
     python_requires=">=3.9,<4",
     extras_require=extras_require,
