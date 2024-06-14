@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 extras_require = {
-    "test" : [ # `test` GitHub Action jobs uses this
+    "test": [  # `test` GitHub Action jobs uses this
         "pytest>=6.0",  # Core testing package
         "pytest-xdist",  # Multi-process runner
         "pytest-cov",  # Coverage analyzer plugin
@@ -66,16 +66,13 @@ setup(
     name="ape-farcaster",
     use_scm_version=True,
     setup_requires=["setuptools_scm"],
-    description = "ape-farcaster is a Python SDK for the Farcaster Protocol"
+    description="ape-farcaster is a Python SDK for the Farcaster Protocol",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    authors= [
-        {name = "Andreessen Horowitz", email = "crypto-engineering@a16z.com"},
-        {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
-    ],
-    maintainers = [
-        {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
-    ],
+    authors="Andreessen Horowitz, ApeWorX LTD.",
+    author_email="crypto-engineering@a16z.com, admin@apeworx.io",
+    maintainer="ApeWorX LTD.",
+    maintainer_email="admin@apeworx.io",
     url="https://github.com/ApeWorX/ape-farcaster",
     include_package_data=True,
     install_requires=[
@@ -86,23 +83,23 @@ setup(
         "certifi",
         "charset-normalizer>=3.0.1,<4",
         "cytoolz>=0.12.1,<0.13",
-        "eth-abi", # Use same version as eth-ape
-        "eth-account", # Use same version as eth-ape
+        "eth-abi",  # Use same version as eth-ape
+        "eth-account",  # Use same version as eth-ape
         "eth-hash[pycryptodome]>=0.5.2,<1",
         "eth-keyfile>=0.6.0,<1",
         "eth-keys>=0.4.0,<1",
         "eth-rlp>=0.3.0,<1",
-        "eth-typing", # Use same version as eth-ape
-        "eth-utils", # Use same version as eth-ape
-        "hexbytes", # Use same version as eth-ape
+        "eth-typing",  # Use same version as eth-ape
+        "eth-utils",  # Use same version as eth-ape
+        "hexbytes",  # Use same version as eth-ape
         "idna>=3.4,4",
         "importlib-metadata>=4.13.0,<5",
         "parsimonious >= 0.10.0,<0.11.0",
         "pycryptodome>=3.16.0,<4",
-        "pydantic", # Use same version as eth-ape
+        "pydantic",  # Use same version as eth-ape
         "pyhumps >= 3.7.2,<4",
         "python-dotenv >= 0.21,<1.1",
-        "requests", # Use same version as eth-ape
+        "requests",  # Use same version as eth-ape
         "rlp>=3.0.0,<4",
         "simplejson=3.18.1,<4",
         "six>=1.16.0,<2",
