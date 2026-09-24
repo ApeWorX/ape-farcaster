@@ -7,9 +7,13 @@ name = "ape-farcaster"
 description = "ape-farcaster is a Python SDK for the Farcaster Protocol"
 readme = "README.md"
 authors = [
-    {name = "ApeWorX Ltd.", email = "admin@apeworx.io"}
+    {name = "Andreessen Horowitz", email = "crypto-engineering@a16z.com"},
+    {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
 ]
-license = "Apache-2.0"
+maintainers = [
+    {name = "ApeWorX LTD.", email = "admin@apeworx.io"},
+]
+license = "MIT"
 keywords = ["ethereum"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -42,17 +46,28 @@ Homepage = "https://github.com/ApeWorX/ape-farcaster"
 
 [dependency-groups]
 docs = [
-    "sphinx-ape",
+    "docconvert>=2.0.0",
+    "mkdocs>=1.4.2",
+    "mkdocs-material>=9.0.5",
+    "mkdocstrings>=0.19.1,<0.24.0",
+    "mkdocstrings-python>=0.8.3,<0.11.0",
+    "cairosvg>=2.6.0",
 ]
 test = [
-    "pytest>=6.0",
+    "pytest>=7.2.1",
     "pytest-xdist",
-    "pytest-cov",
+    "pytest-cov>=4.0.0",
+    "pytest-dependency>=0.5.1",
+    "pytest-html>=3.1.1",
+    "pytest-recording>=0.12.1",
+    "vcrpy>=5.1.0",
+    "coverage>=7.2.1",
     "hypothesis>=6.2.0,<7",
 ]
 lint = [
     "mypy>=1.15.0,<2",
     "types-setuptools",
+    "types-requests>=2.31.0.2",
     "ruff>=0.9.0",
     "mdformat>=0.7.22",
     "mdformat-gfm>=0.3.5",
