@@ -1,5 +1,4 @@
 # import pytest
-from typing import List, Optional, Union
 
 from farcaster.models import ApiCast, ApiUser, MentionNotification, ReplyNotification
 from farcaster.utils.stream_generator import (
@@ -9,7 +8,7 @@ from farcaster.utils.stream_generator import (
 )
 
 
-def mock_get_recent_users(cursor: Optional[str], limit: int) -> List[ApiUser]:
+def mock_get_recent_users(cursor: str | None, limit: int) -> list[ApiUser]:
     return [
         ApiUser.model_validate(
             {
@@ -77,7 +76,7 @@ def mock_get_recent_users(cursor: Optional[str], limit: int) -> List[ApiUser]:
     ]
 
 
-def mock_get_recent_casts(cursor: Optional[str], limit: int) -> List[ApiCast]:
+def mock_get_recent_casts(cursor: str | None, limit: int) -> list[ApiCast]:
     return [
         ApiCast.model_validate(
             {
@@ -188,8 +187,8 @@ def mock_get_recent_casts(cursor: Optional[str], limit: int) -> List[ApiCast]:
 
 
 def mock_get_recent_notifications(
-    cursor: Optional[str], limit: int
-) -> List[Union[MentionNotification, ReplyNotification]]:
+    cursor: str | None, limit: int
+) -> list[MentionNotification | ReplyNotification]:
     return [
         ReplyNotification.model_validate(
             {
@@ -265,9 +264,7 @@ def mock_get_recent_notifications(
 
 def test_stream_generator_users_pause_after():
     count = 0
-    for user in stream_generator(
-        mock_get_recent_users, attribute_name="fid", pause_after=-1
-    ):
+    for user in stream_generator(mock_get_recent_users, attribute_name="fid", pause_after=-1):
         print(user)
         if count == 3:
             assert user is None
@@ -286,9 +283,7 @@ def test_stream_generator_users_skip_existing():
 
 def test_stream_generator_casts_pause_after():
     count = 0
-    for cast in stream_generator(
-        mock_get_recent_casts, attribute_name="hash", pause_after=-1
-    ):
+    for cast in stream_generator(mock_get_recent_casts, attribute_name="hash", pause_after=-1):
         print(cast)
         if count == 3:
             assert cast is None

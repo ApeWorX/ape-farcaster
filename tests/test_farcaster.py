@@ -1,9 +1,7 @@
-from typing import Any, List
-
 import logging
+from typing import Any
 
 import pytest
-
 from farcaster import Warpcast, models
 
 
@@ -18,9 +16,7 @@ def test_get_cast(client: Warpcast) -> None:
         None
     """
     # get cast
-    response = client.get_cast(
-        "0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d86f"
-    )
+    response = client.get_cast("0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d86f")
     assert response.cast.author.fid == 3
 
 
@@ -37,9 +33,7 @@ def test_nonexistent_get_cast(client: Warpcast) -> None:
     # get cast
     with pytest.raises(Exception):
         # Should raise error
-        client.get_cast(
-            "0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d861"
-        )
+        client.get_cast("0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d861")
 
 
 @pytest.mark.vcr
@@ -126,7 +120,7 @@ def test_get_recent_casts(client: Warpcast) -> None:
 
 
 @pytest.mark.vcr
-@pytest.mark.dependency()
+@pytest.mark.dependency
 def test_follow_user(client: Warpcast) -> None:
     """Unit test that follows user
 
@@ -335,12 +329,8 @@ def test_get_user_by_verification(client: Warpcast) -> None:
         None
     """
     with pytest.raises(Exception):
-        user = client.get_user_by_verification(
-            address="0x000000000877cb2a6cbce87a34f0d2fd7cb4ad3e"
-        )
-    user = client.get_user_by_verification(
-        address="0xDC40CbF86727093c52582405703e5b97D5C64B66"
-    )
+        user = client.get_user_by_verification(address="0x000000000877cb2a6cbce87a34f0d2fd7cb4ad3e")
+    user = client.get_user_by_verification(address="0xDC40CbF86727093c52582405703e5b97D5C64B66")
     assert user.username == "mason"
 
 
@@ -354,7 +344,7 @@ def test_stream_casts(client: Warpcast) -> None:
     Returns:
         None
     """
-    casts: List[models.ApiCast] = []
+    casts: list[models.ApiCast] = []
     for cast in client.stream_casts(pause_after=-1):
         if cast is None:
             break
@@ -388,7 +378,7 @@ def test_stream_users(client: Warpcast) -> None:
     Returns:
         None
     """
-    users: List[models.ApiUser] = []
+    users: list[models.ApiUser] = []
     for user in client.stream_users(pause_after=-1):
         if user is None:
             break
@@ -422,7 +412,7 @@ def test_stream_notifications(client: Warpcast) -> None:
     Returns:
         None
     """
-    notifications: List[Any] = []
+    notifications: list[Any] = []
     for notification in client.stream_notifications(pause_after=-1):
         if notification is None:
             break
@@ -452,7 +442,7 @@ class TestRW:
     cast_hash = ""
 
     @pytest.mark.vcr
-    @pytest.mark.dependency()
+    @pytest.mark.dependency
     def test_post_cast(self, client: Warpcast) -> None:
         """Unit test that posts cast
 
@@ -462,9 +452,7 @@ class TestRW:
         Returns:
             None
         """
-        response = client.post_cast(
-            text="Hello world from our WIP Farcaster Python SDK!"
-        )
+        response = client.post_cast(text="Hello world from our WIP Farcaster Python SDK!")
         logging.debug(response.cast.model_dump())
         assert response.cast
         self.__class__.cast_hash = response.cast.hash

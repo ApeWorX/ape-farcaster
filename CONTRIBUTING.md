@@ -1,47 +1,44 @@
-# How to contribute
+# Development
 
-## Dependencies
-
-We use `poetry` to manage the [dependencies](https://github.com/python-poetry/poetry).
-If you dont have `poetry`, you should install with `make poetry-download`.
-
-To install dependencies and prepare [`pre-commit`](https://pre-commit.com/) hooks you would need to run `install` command:
+To get started with working on the codebase, use the following steps prepare your local environment:
 
 ```bash
-make install
-make pre-commit-install
+# clone the github repo and navigate into the folder
+git clone https://github.com/ApeWorX/ape-farcaster.git
+cd ape-farcaster
+
+# install the package and developer dependency groups with uv
+# (https://docs.astral.sh/uv/)
+uv sync --group dev
 ```
 
-To activate your `virtualenv` run `poetry shell`.
+## Prek Hooks
 
-## Codestyle
+We use [`prek`](https://github.com/j178/prek) to run repository hooks and keep contributor workflows
+consistent. Use of `prek` is not a requirement, but is highly recommended.
 
-After installation you may execute code formatting.
+Install hooks locally from the repo root:
 
 ```bash
-make codestyle
+uv run prek install
 ```
 
-### Checks
+Committing will now automatically run the local hooks and ensure that your commit passes all lint
+checks.
 
-Many checks are configured for this project. Command `make check-codestyle` will check black, isort and darglint.
-The `make check-safety` command will look at the security of your code.
+## Pull Requests
 
-Comand `make lint` applies all checks.
+Pull requests are welcomed! Please adhere to the following:
 
-### Before submitting
+- Ensure your pull request passes our linting checks
+- Include test cases for any new functionality
+- Include any relevant documentation updates
 
-Before submitting your code please do the following steps:
+It's a good idea to make pull requests early on. A pull request represents the start of a
+discussion, and doesn't necessarily need to be the final, finished submission.
 
-1. Add any changes you want
-1. Add tests for the new changes
-1. Edit documentation if you have changed something significant
-1. Run `make codestyle` to format your changes.
-1. Run `make lint` to ensure that types, security and docstrings are okay.
+If you are opening a work-in-progress pull request to verify that it passes CI tests, please
+consider
+[marking it as a draft](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests).
 
-## Other help
-
-You can contribute by spreading a word about this library.
-It would also be a huge contribution to write
-a short article on how you are using this project.
-You can also share your best practices with us.
+Join the ApeWorX [Discord](https://discord.gg/apeworx) if you have any questions.

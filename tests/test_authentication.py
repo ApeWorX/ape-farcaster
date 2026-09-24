@@ -1,10 +1,8 @@
-from typing import Any
-
 import time
+from typing import Any
 
 import pytest
 import requests
-
 from farcaster import Warpcast
 from farcaster.client import now_ms
 from farcaster.models import *

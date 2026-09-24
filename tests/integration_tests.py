@@ -2,7 +2,6 @@ import os
 import time
 
 from dotenv import load_dotenv
-
 from farcaster import Warpcast
 
 

@@ -1,17 +1,14 @@
-from typing import Any, Dict, Iterator, Optional
-
 import base64
 import logging
 import time
+from collections.abc import Iterator
+from typing import Any
 
 import canonicaljson
 import requests
 from ape.api import AccountAPI
 from ape.types import MessageSignature
-from eth_account.account import Account
-from eth_account.datastructures import SignedMessage
 from eth_account.messages import encode_defunct
-from eth_account.signers.local import LocalAccount
 from pydantic import PositiveInt
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
@@ -29,15 +26,15 @@ class Warpcast:
 
     config: ConfigurationParams
     account: AccountAPI
-    access_token: Optional[str]
-    expires_at: Optional[PositiveInt]
+    access_token: str | None
+    expires_at: PositiveInt | None
     rotation_duration: PositiveInt
     session: requests.Session
 
     def __init__(
         self,
         account: AccountAPI,
-        expires_at: Optional[PositiveInt] = None,
+        expires_at: PositiveInt | None = None,
         rotation_duration: PositiveInt = 10,
         **data: Any,
     ):
@@ -50,9 +47,7 @@ class Warpcast:
         self.session.mount(
             self.config.base_path,
             HTTPAdapter(
-                max_retries=Retry(
-                    total=2, backoff_factor=1, status_forcelist=[520, 413, 429, 503]
-                )
+                max_retries=Retry(total=2, backoff_factor=1, status_forcelist=[520, 413, 429, 503])
             ),
         )
 
@@ -67,13 +62,13 @@ class Warpcast:
     def _get(
         self,
         path: str,
-        params: Dict[Any, Any] = {},
-        json: Dict[Any, Any] = {},
-        headers: Dict[Any, Any] = {},
-    ) -> Dict[Any, Any]:
+        params: dict[Any, Any] = {},
+        json: dict[Any, Any] = {},
+        headers: dict[Any, Any] = {},
+    ) -> dict[Any, Any]:
         self._check_auth_header()
         logging.debug(f"GET {path} {params} {json} {headers}")
-        response: Dict[Any, Any] = self.session.get(
+        response: dict[Any, Any] = self.session.get(
             self.config.base_path + path, params=params, json=json, headers=headers
         ).json()
         if "errors" in response:
@@ -83,13 +78,13 @@ class Warpcast:
     def _post(
         self,
         path: str,
-        params: Dict[Any, Any] = {},
-        json: Dict[Any, Any] = {},
-        headers: Dict[Any, Any] = {},
-    ) -> Dict[Any, Any]:
+        params: dict[Any, Any] = {},
+        json: dict[Any, Any] = {},
+        headers: dict[Any, Any] = {},
+    ) -> dict[Any, Any]:
         self._check_auth_header()
         logging.debug(f"POST {path} {params} {json} {headers}")
-        response: Dict[Any, Any] = self.session.post(
+        response: dict[Any, Any] = self.session.post(
             self.config.base_path + path, params=params, json=json, headers=headers
         ).json()
         if "errors" in response:
@@ -99,13 +94,13 @@ class Warpcast:
     def _put(
         self,
         path: str,
-        params: Dict[Any, Any] = {},
-        json: Dict[Any, Any] = {},
-        headers: Dict[Any, Any] = {},
-    ) -> Dict[Any, Any]:
+        params: dict[Any, Any] = {},
+        json: dict[Any, Any] = {},
+        headers: dict[Any, Any] = {},
+    ) -> dict[Any, Any]:
         self._check_auth_header()
         logging.debug(f"PUT {path} {params} {json} {headers}")
-        response: Dict[Any, Any] = self.session.put(
+        response: dict[Any, Any] = self.session.put(
             self.config.base_path + path, params=params, json=json, headers=headers
         ).json()
         if "errors" in response:
@@ -115,13 +110,13 @@ class Warpcast:
     def _delete(
         self,
         path: str,
-        params: Dict[Any, Any] = {},
-        json: Dict[Any, Any] = {},
-        headers: Dict[Any, Any] = {},
-    ) -> Dict[Any, Any]:
+        params: dict[Any, Any] = {},
+        json: dict[Any, Any] = {},
+        headers: dict[Any, Any] = {},
+    ) -> dict[Any, Any]:
         self._check_auth_header()
         logging.debug(f"DELETE {path} {params} {json} {headers}")
-        response: Dict[Any, Any] = self.session.delete(
+        response: dict[Any, Any] = self.session.delete(
             self.config.base_path + path, params=params, json=json, headers=headers
         ).json()
         if "errors" in response:
@@ -156,7 +151,7 @@ class Warpcast:
 
     def get_asset_events(
         self,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableEventsResult:
         """Get events for a given asset
@@ -216,7 +211,7 @@ class Warpcast:
     def get_cast_likes(
         self,
         cast_hash: str,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableReactionsResult:
         """Get the likes for a given cast
@@ -284,7 +279,7 @@ class Warpcast:
     def get_cast_recasters(
         self,
         cast_hash: str,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableUsersResult:
         """Get the recasters for a given cast
@@ -312,9 +307,7 @@ class Warpcast:
                 users.extend(response_model.result.users)
             if not response_model.next or len(users) >= limit:
                 break
-        return IterableUsersResult(
-            users=users, cursor=getattr(response_model.next, "cursor", None)
-        )
+        return IterableUsersResult(users=users, cursor=getattr(response_model.next, "cursor", None))
 
     def get_cast(
         self,
@@ -355,7 +348,7 @@ class Warpcast:
     def get_casts(
         self,
         fid: int,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableCastsResult:
         """Get the casts for a given fid of a user
@@ -387,9 +380,9 @@ class Warpcast:
     def post_cast(
         self,
         text: str,
-        embeds: Optional[List[str]] = None,
-        parent: Optional[Parent] = None,
-        channel_key: Optional[str] = None,
+        embeds: List[str] | None = None,
+        parent: Parent | None = None,
+        channel_key: str | None = None,
     ) -> CastContent:
         """Post a cast to Farcaster
 
@@ -402,9 +395,7 @@ class Warpcast:
         Returns:
             CastContent: The result of posting the cast
         """
-        body = CastsPostRequest(
-            text=text, embeds=embeds, parent=parent, channel_key=channel_key
-        )
+        body = CastsPostRequest(text=text, embeds=embeds, parent=parent, channel_key=channel_key)
         response = self._post(
             "casts",
             json=body.model_dump(by_alias=True, exclude_none=True),
@@ -430,7 +421,7 @@ class Warpcast:
     def get_collection_owners(
         self,
         collection_id: str,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableUsersResult:
         """Get the owners of an OpenSea collection
@@ -466,7 +457,7 @@ class Warpcast:
     def get_followers(
         self,
         fid: int,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableUsersResult:
         """Get the followers of a user
@@ -495,7 +486,7 @@ class Warpcast:
             users=users[:limit], cursor=getattr(response_model.next, "cursor", None)
         )
 
-    def get_all_followers(self, fid: Optional[int] = None) -> UsersResult:
+    def get_all_followers(self, fid: int | None = None) -> UsersResult:
         """Get all followers of a user by iterating through the next cursors
         Args:
             fid (int): Farcaster ID of the user
@@ -523,7 +514,7 @@ class Warpcast:
     def get_following(
         self,
         fid: int,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableUsersResult:
         """Get the users a user is following
@@ -552,7 +543,7 @@ class Warpcast:
             users=users[:limit], cursor=getattr(response_model.next, "cursor", None)
         )
 
-    def get_all_following(self, fid: Optional[int] = None) -> UsersResult:
+    def get_all_following(self, fid: int | None = None) -> UsersResult:
         """Get all the users a user is following by iterating through the next cursors
 
         Args:
@@ -626,7 +617,7 @@ class Warpcast:
 
     def get_mention_and_reply_notifications(
         self,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableNotificationsResult:
         """Get mention and reply notifications
@@ -657,7 +648,7 @@ class Warpcast:
 
     def _recent_notifications_list(
         self,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> List[Union[MentionNotification, ReplyNotification]]:
         """Get mention and reply notifications as a list
@@ -669,13 +660,11 @@ class Warpcast:
         Returns:
             List[Union[MentionNotification, ReplyNotification]]: list of notifications
         """
-        return self.get_mention_and_reply_notifications(
-            cursor=cursor, limit=limit
-        ).notifications
+        return self.get_mention_and_reply_notifications(cursor=cursor, limit=limit).notifications
 
     def stream_notifications(
         self, **stream_options: Any
-    ) -> Iterator[Optional[Union[MentionNotification, ReplyNotification]]]:
+    ) -> Iterator[Union[MentionNotification, ReplyNotification] | None]:
         """Stream all recent notifications
 
         Possible stream options:
@@ -784,7 +773,7 @@ class Warpcast:
     def get_user_collections(
         self,
         owner_fid: int,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableCollectionsResult:
         """Get the collections of a user
@@ -821,7 +810,7 @@ class Warpcast:
     def get_verifications(
         self,
         fid: int,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableVerificationsResult:
         """Get the verifications of a user
@@ -847,7 +836,7 @@ class Warpcast:
 
     def get_recent_users(
         self,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableUsersResult:
         """Get recent users
@@ -877,7 +866,7 @@ class Warpcast:
 
     def _recent_users_list(
         self,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> List[ApiUser]:
         """Get recent users as a list
@@ -891,7 +880,7 @@ class Warpcast:
         """
         return self.get_recent_users(cursor=cursor, limit=limit).users
 
-    def stream_users(self, **stream_options: Any) -> Iterator[Optional[ApiUser]]:
+    def stream_users(self, **stream_options: Any) -> Iterator[ApiUser | None]:
         """Stream all recent users.
 
         Possible stream options:
@@ -914,8 +903,8 @@ class Warpcast:
 
     def get_custody_address(
         self,
-        username: Optional[str] = None,
-        fid: Optional[int] = None,
+        username: str | None = None,
+        fid: int | None = None,
     ) -> CustodyAddress:
         """Get the custody address of a user
 
@@ -938,7 +927,7 @@ class Warpcast:
     def get_user_cast_likes(
         self,
         fid: int,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 25,
     ) -> IterableLikes:
         """Get the likes of a user
@@ -969,7 +958,7 @@ class Warpcast:
 
     def get_recent_casts(
         self,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 100,
     ) -> IterableCastsResult:
         """Get all recent casts
@@ -999,7 +988,7 @@ class Warpcast:
 
     def _recent_casts_lists(
         self,
-        cursor: Optional[str] = None,
+        cursor: str | None = None,
         limit: PositiveInt = 100,
     ) -> List[ApiCast]:
         """Get all recent casts and return them as a list
@@ -1013,7 +1002,7 @@ class Warpcast:
         """
         return self.get_recent_casts(cursor=cursor, limit=limit).casts
 
-    def stream_casts(self, **stream_options: Any) -> Iterator[Optional[ApiCast]]:
+    def stream_casts(self, **stream_options: Any) -> Iterator[ApiCast | None]:
         """Stream all recent casts
 
         Possible stream options:
@@ -1044,9 +1033,7 @@ class Warpcast:
             str: access token
         """
         now = int(time.time())
-        auth_params = AuthParams(
-            timestamp=now * 1000, expires_at=(now + (expires_in * 60)) * 1000
-        )
+        auth_params = AuthParams(timestamp=now * 1000, expires_at=(now + (expires_in * 60)) * 1000)
         logging.debug(f"Creating new auth token with params: {auth_params}")
         response = self.put_auth(auth_params)
         self.access_token = response.token.secret

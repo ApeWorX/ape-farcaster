@@ -1,35 +1,36 @@
-from typing import Any, Callable, Iterator, List, Optional
-from typing import OrderedDict as OrderedDictType
-from typing import Union
-
 import logging
 import random
 import time
-from collections import OrderedDict
+from collections import (
+    OrderedDict,
+    OrderedDict as OrderedDictType,
+)
+from collections.abc import Callable, Iterator
+from typing import Any, Union
 
 from pydantic import PositiveInt
 
 from ape_farcaster.models import ApiCast, ApiUser, MentionNotification, ReplyNotification
 
 Streamable = Union[
-    List[Union[MentionNotification, ReplyNotification]],
-    List[ApiUser],
-    List[ApiCast],
+    list[MentionNotification | ReplyNotification],
+    list[ApiUser],
+    list[ApiCast],
 ]
 
 
 def stream_generator(
     function: Callable[
-        [Optional[str], int],
+        [str | None, int],
         Streamable,
     ],
     *,
     attribute_name: str = "hash",
-    pause_after: Optional[int] = None,
+    pause_after: int | None = None,
     skip_existing: bool = False,
     max_counter: PositiveInt = 16,
     limit: int = 50,
-    cursor: Optional[str] = None,
+    cursor: str | None = None,
 ) -> Iterator[Any]:
     """Yield new items from ``function`` as they become available.
 
@@ -126,7 +127,7 @@ class ExponentialCounter:
         self._base = 1
         self._max = max_counter
 
-    def counter(self) -> Union[int, float]:
+    def counter(self) -> int | float:
         """Increment the counter and return the current value with jitter."""
         max_jitter = self._base / 16.0
         value = self._base + random.random() * max_jitter - max_jitter / 2

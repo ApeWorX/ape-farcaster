@@ -29,7 +29,7 @@ First, save your Farcaster mnemonic or private key to a `.env` file. Now you can
 ```python
 import os
 from farcaster import Warpcast
-from dotenv import load_dotenv # can be installed with `pip install python-dotenv`
+from dotenv import load_dotenv  # can be installed with `pip install python-dotenv`
 
 load_dotenv()
 
@@ -44,28 +44,28 @@ Get a cast
 
 ```python
 response = client.get_cast("0x321712dc8eccc5d2be38e38c1ef0c8916c49949a80ffe20ec5752bb23ea4d86f")
-print(response.cast.author.username) # "dwr"
+print(response.cast.author.username)  # "dwr"
 ```
 
 Publish a cast
 
 ```python
 response = client.post_cast(text="Hello world!")
-print(response.cast.hash) # "0x...."
+print(response.cast.hash)  # "0x...."
 ```
 
 Get a user by username
 
 ```python
 user = client.get_user_by_username("mason")
-print(user.username) # "mason"
+print(user.username)  # "mason"
 ```
 
 Get a user's followers using a fid (farcaster ID)
 
 ```python
 response = client.get_followers(fid=50)
-print(response.users) # [user1, user2, user3]
+print(response.users)  # [user1, user2, user3]
 ```
 
 Stream recent casts
@@ -73,28 +73,28 @@ Stream recent casts
 ```python
 for cast in client.stream_casts():
     if cast:
-        print(cast.text) # "Hello world!"
+        print(cast.text)  # "Hello world!"
 ```
 
 Get users who recently joined Farcaster
 
 ```python
 response = client.get_recent_users()
-print(response.users) # [user1, user2, user3]
+print(response.users)  # [user1, user2, user3]
 ```
 
 Get your own user object
 
 ```python
 user = client.get_me()
-print(user.username) # "you"
+print(user.username)  # "you"
 ```
 
 Recast a cast
 
 ```python
 response = client.recast("0x....")
-print(response.cast.hash) # "0x...."
+print(response.cast.hash)  # "0x...."
 ```
 
 and many, many more things.
