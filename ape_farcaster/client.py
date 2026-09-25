@@ -62,10 +62,16 @@ class Warpcast:
     def _get(
         self,
         path: str,
-        params: dict[Any, Any] = {},
-        json: dict[Any, Any] = {},
-        headers: dict[Any, Any] = {},
+        params: dict[Any, Any] = None,
+        json: dict[Any, Any] = None,
+        headers: dict[Any, Any] = None,
     ) -> dict[Any, Any]:
+        if headers is None:
+            headers = {}
+        if json is None:
+            json = {}
+        if params is None:
+            params = {}
         self._check_auth_header()
         logging.debug(f"GET {path} {params} {json} {headers}")
         response: dict[Any, Any] = self.session.get(
@@ -78,10 +84,16 @@ class Warpcast:
     def _post(
         self,
         path: str,
-        params: dict[Any, Any] = {},
-        json: dict[Any, Any] = {},
-        headers: dict[Any, Any] = {},
+        params: dict[Any, Any] = None,
+        json: dict[Any, Any] = None,
+        headers: dict[Any, Any] = None,
     ) -> dict[Any, Any]:
+        if headers is None:
+            headers = {}
+        if json is None:
+            json = {}
+        if params is None:
+            params = {}
         self._check_auth_header()
         logging.debug(f"POST {path} {params} {json} {headers}")
         response: dict[Any, Any] = self.session.post(
@@ -94,10 +106,16 @@ class Warpcast:
     def _put(
         self,
         path: str,
-        params: dict[Any, Any] = {},
-        json: dict[Any, Any] = {},
-        headers: dict[Any, Any] = {},
+        params: dict[Any, Any] = None,
+        json: dict[Any, Any] = None,
+        headers: dict[Any, Any] = None,
     ) -> dict[Any, Any]:
+        if headers is None:
+            headers = {}
+        if json is None:
+            json = {}
+        if params is None:
+            params = {}
         self._check_auth_header()
         logging.debug(f"PUT {path} {params} {json} {headers}")
         response: dict[Any, Any] = self.session.put(
@@ -110,10 +128,16 @@ class Warpcast:
     def _delete(
         self,
         path: str,
-        params: dict[Any, Any] = {},
-        json: dict[Any, Any] = {},
-        headers: dict[Any, Any] = {},
+        params: dict[Any, Any] = None,
+        json: dict[Any, Any] = None,
+        headers: dict[Any, Any] = None,
     ) -> dict[Any, Any]:
+        if headers is None:
+            headers = {}
+        if json is None:
+            json = {}
+        if params is None:
+            params = {}
         self._check_auth_header()
         logging.debug(f"DELETE {path} {params} {json} {headers}")
         response: dict[Any, Any] = self.session.delete(

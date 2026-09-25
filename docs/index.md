@@ -14,7 +14,6 @@ or install with [Poetry](https://python-poetry.org/):
 poetry add ape-farcaster
 ```
 
-
 ## Usage
 
 This SDK leverages the Warpcast API. [Warpcast](https://warpcast.com/) is one of many Farcaster

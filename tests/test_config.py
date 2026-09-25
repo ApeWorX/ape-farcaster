@@ -1,6 +1,7 @@
 import pytest
-from farcaster import Warpcast
 from farcaster.client import get_wallet
+
+from farcaster import Warpcast
 
 
 def test_get_base_path(client: Warpcast) -> None:

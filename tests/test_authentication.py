@@ -3,9 +3,10 @@ from typing import Any
 
 import pytest
 import requests
-from farcaster import Warpcast
 from farcaster.client import now_ms
 from farcaster.models import *
+
+from farcaster import Warpcast
 
 
 # custom class to be the mock return value

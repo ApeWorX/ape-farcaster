@@ -2,6 +2,7 @@ import logging
 from typing import Any
 
 import pytest
+
 from farcaster import Warpcast, models
 
 
