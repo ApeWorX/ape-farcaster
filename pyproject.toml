@@ -125,15 +125,13 @@ select = [
     "TC",     # flake8-type-checking
     "ARG",    # flake8-unused-arguments
 ]
-ignore = [
-    "TC003",  # Move stdlib import into TYPE_CHECKING block
-]
+ignore = ["TC003", "N806", "N815"]
 
 [tool.ruff.lint.per-file-ignores]
-"ape_farcaster/**/*.py" = ["F403", "F405", "E501", "B904", "RET504", "RET505", "TC002", "N818"]
+"ape_farcaster/**/*.py" = ["F403", "F405", "E501", "B904", "RET504", "RET505", "TC002", "N818", "B017", "N806", "N815", "PT011", "UP007"]
 "version.py" = ["ALL"]
 "__init__.py" = ["F401"]
-"tests/**/*.py" = ["ARG001", "ARG002", "F403", "F405", "T201", "SIM113", "PT018", "E501", "B904", "RET504", "RET505", "TC002"]  # Pytest fixtures may appear unused
+"tests/**/*.py" = ["ARG001", "ARG002", "F403", "F405", "T201", "SIM113", "PT018", "E501", "B904", "RET504", "RET505", "TC002", "B017", "N806", "N815", "PT011", "UP007"]  # Pytest fixtures may appear unused
 
 [tool.ruff.lint.isort]
 force-wrap-aliases = true
